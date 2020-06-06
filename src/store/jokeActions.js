@@ -30,16 +30,20 @@ export const loadJokes = () => {
   };
 };
 
-export const createJoke = (joke) => {
+export const createJoke = (joke, onSuccess) => {
   return async (dispatch) => {
     try {
       dispatch(operationStarted());
       const response = await fetch('/jokes', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify(joke)
       });
       if (response.ok) {
         dispatch(createJokeSuccess(joke));
+        onSuccess();
       } else {
         dispatch(operationFailed('Failed to create a joke :('));
       }
@@ -49,16 +53,20 @@ export const createJoke = (joke) => {
   };
 };
 
-export const updateJoke = (joke) => {
+export const updateJoke = (joke, onSuccess) => {
   return async (dispatch) => {
     try {
       dispatch(operationStarted());
       const response = await fetch(`/jokes/${joke.id}`, {
         method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify(joke)
       });
       if (response.ok) {
         dispatch(updateJokeSuccess(joke));
+        onSuccess();
       } else {
         dispatch(operationFailed('Failed to update the joke :('));
       }

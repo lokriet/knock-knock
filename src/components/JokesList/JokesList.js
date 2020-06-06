@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import * as actions from '../../store/jokeActions';
 import Error from '../UI/Error/Error';
@@ -24,6 +24,7 @@ const JokesList = () => {
     <Spinner />
   ) : (
     <div>
+      <Link to="/newJoke">New</Link>
       <div>
         {jokes.map((joke) => (
           <JokeCard key={joke.id} joke={joke} onClicked={() => handleViewJoke(joke)} />

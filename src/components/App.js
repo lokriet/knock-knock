@@ -15,6 +15,7 @@ function App() {
         <Route path="/" exact component={JokesList} />
         <Route path="/viewJoke/:jokeId" component={ViewJoke} />
         <Route path="/editJoke/:jokeId" component={EditJoke} />
+        <Route path="/newJoke" component={EditJoke} />
         <Route path="/" component={PageNotFound} />
       </Switch>
     </BrowserRouter>
