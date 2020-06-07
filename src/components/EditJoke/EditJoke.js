@@ -1,29 +1,23 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { Link, Redirect, useHistory, useParams } from 'react-router-dom';
 
-import * as actions from '../../store/jokeActions';
-import PageNotFound from '../PageNotFound/PageNotFound';
+import * as actions from '../../store/actions';
 import Error from '../UI/Error/Error';
 import { Spinner } from '../UI/Spinner/Spinner';
 import classes from './EditJoke.module.scss';
 
-const EditJoke = () => {
+const EditJoke = ({isNew}) => {
   const { jokeId } = useParams();
-  const isNew = jokeId == null;
-  const { loading, error, initialized } = useSelector((state) => state);
-  const joke = useSelector((state) =>
-    isNew
-      ? null
-      : state.jokes.find((joke) => joke.id.toString() === jokeId.toString())
-  );
-  const nextAvailableId = useSelector((state) =>
-    isNew ? null : state.jokes.length + 1
+
+  const { joke, loading, saving, error, saved } = useSelector(
+    (state) => state.jokeEdit
   );
 
   const [values, setValues] = useState({
-    who: isNew ? '' : joke?.who || '',
-    punchline: isNew ? '' : joke?.punchline || ''
+    who: '',
+    punchline: ''
   });
   const [errors, setErrors] = useState({ who: false, punchline: false });
 
@@ -31,10 +25,20 @@ const EditJoke = () => {
   const history = useHistory();
 
   useEffect(() => {
-    if (!isNew) {
-      dispatch(actions.loadJokes());
+    dispatch(actions.jokeEditPageLoaded(jokeId));
+    return () => {
+      dispatch(actions.jokeEditPageUnloaded());
+    };
+  }, [dispatch, jokeId]);
+
+  useEffect(() => {
+    if (joke) {
+      setValues({
+        who: joke.who,
+        punchline: joke.punchline
+      })
     }
-  }, [dispatch, isNew]);
+  }, [joke]);
 
   const validateInput = (inputName, inputValue) => {
     if (inputValue.trim() === '') {
@@ -64,34 +68,14 @@ const EditJoke = () => {
       const updatedWho = values.who.trim();
       const updatedPunchline = values.punchline.trim();
 
-      if (isNew) {
-        dispatch(
-          actions.createJoke(
-            {
-              id: nextAvailableId,
-              who: updatedWho,
-              punchline: updatedPunchline
-            },
-            handleSubmitSuccess
-          )
-        );
-      } else {
-        dispatch(
-          actions.updateJoke(
-            {
-              id: Number(jokeId),
-              who: updatedWho,
-              punchline: updatedPunchline
-            },
-            handleSubmitSuccess
-          )
-        );
-      }
-    }
-  };
+      const id = isNew ? new Date().getTime() : joke.id;
+      dispatch(actions.saveJoke({
+        id,
+        who: updatedWho,
+        punchline: updatedPunchline
+      }, isNew));
 
-  const handleSubmitSuccess = () => {
-    history.push('/');
+    }
   };
 
   const handleCancel = () => {
@@ -99,75 +83,73 @@ const EditJoke = () => {
   };
 
   let view;
-  if (!isNew && !initialized) {
+  if (loading) {
     view = <Spinner />;
+  } else if (saved) {
+    view = <Redirect to="/" />
   } else {
-    if (!isNew && !joke) {
-      view = <PageNotFound />;
-    } else {
-      view = (
-        <div className={classes.Container}>
-          <Link to="/" className={classes.PageTitle}>
-            - Knock-knock!
-          </Link>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <p>- Who's there?</p>
-              <span>- </span>
-              <input
-                type="text"
-                name="who"
-                value={values.who}
-                maxLength={200}
-                onChange={(event) => handleInputChanged(event, 'who')}
-              />
-              <Error
-                className={classes.InputError}
-                error={errors.who ? 'Say hoo!' : null}
-              />
+    view = (
+      <div className={classes.Container}>
+        <Link to="/" className={classes.PageTitle}>
+          - Knock-knock!
+        </Link>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <p>- Who's there?</p>
+            <span>- </span>
+            <input
+              type="text"
+              name="who"
+              value={values.who}
+              maxLength={200}
+              onChange={(event) => handleInputChanged(event, 'who')}
+            />
+            <Error
+              className={classes.InputError}
+              error={errors.who ? 'Say hoo!' : null}
+            />
 
-              <p>- {values.who} who?</p>
-              <span>- </span>
-              <input
-                type="text"
-                name="punchline"
-                value={values.punchline}
-                maxLength={500}
-                onChange={(event) => handleInputChanged(event, 'punchline')}
-              />
-              <Error
-                className={classes.InputError}
-                error={
-                  errors.punchline
-                    ? 'A joke without a punchline is like a morning without a coffee!'
-                    : null
-                }
-              />
-            </div>
-            <div className={classes.Buttons}>
-              <button
-                className={classes.Button}
-                type="submit"
-                disabled={loading}
-              >
-                Save
-              </button>
-              <button
-                className={classes.Button}
-                type="button"
-                onClick={handleCancel}
-                disabled={loading}
-              >
-                Cancel
-              </button>
-            </div>
-          </form>
-          <Error error={error} />
-        </div>
-      );
-    }
+            <p>- {values.who} who?</p>
+            <span>- </span>
+            <input
+              type="text"
+              name="punchline"
+              value={values.punchline}
+              maxLength={500}
+              onChange={(event) => handleInputChanged(event, 'punchline')}
+            />
+            <Error
+              className={classes.InputError}
+              error={
+                errors.punchline
+                  ? 'A joke without a punchline is like a morning without a coffee!'
+                  : null
+              }
+            />
+          </div>
+          <div className={classes.Buttons}>
+            <button className={classes.Button} type="submit" disabled={saving}>
+              Save
+            </button>
+            <button
+              className={classes.Button}
+              type="button"
+              onClick={handleCancel}
+              disabled={saving}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+        <Error error={error} />
+      </div>
+    );
   }
   return view;
+};
+
+EditJoke.propTypes = {
+  isNew: PropTypes.bool
 };
 
 export default EditJoke;

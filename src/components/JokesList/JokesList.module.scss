@@ -36,7 +36,6 @@
   margin: 0 auto;
   display: grid;
   justify-content: center;
-  align-items: flex-start;
   grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
   gap: 1.5rem 2rem;
   grid-auto-flow: dense;

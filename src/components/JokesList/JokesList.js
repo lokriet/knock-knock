@@ -2,19 +2,23 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 
-import * as actions from '../../store/jokeActions';
+import * as actions from '../../store/actions';
 import Error from '../UI/Error/Error';
 import { Spinner } from '../UI/Spinner/Spinner';
 import JokeCard from './JokeCard/JokeCard';
 import classes from './JokesList.module.scss';
 
 const JokesList = () => {
-  const { jokes, loading, error } = useSelector((state) => state);
+  const { jokes, loading, error } = useSelector((state) => state.jokeList);
   const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
-    dispatch(actions.loadJokes());
+    dispatch(actions.jokeListPageLoaded());
+
+    return () => {
+      dispatch(actions.jokeListPageUnloaded());
+    }
   }, [dispatch]);
 
   const handleViewJoke = (joke) => {

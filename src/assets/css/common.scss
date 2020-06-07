@@ -42,11 +42,15 @@
   color: white;
   border-radius: 8px;
   cursor: pointer;
-}
 
-.Button:hover,
-.Button:active,
-.Button:focus {
-  background-color: #100e7e;
-  outline: none;
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: #100e7e;
+    outline: none;
+  }
+
+  &:disabled {
+    background-color: #555;
+  }
 }
