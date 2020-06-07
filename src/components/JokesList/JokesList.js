@@ -31,14 +31,16 @@ const JokesList = () => {
         <Error error={error} />
       ) : (
         <>
-          <div className={classes.Jokes}>
-            {jokes.map((joke) => (
-              <JokeCard
-                key={joke.id}
-                joke={joke}
-                onClicked={() => handleViewJoke(joke)}
-              />
-            ))}
+          <div className={classes.JokesContainer}>
+            <div className={classes.Jokes}>
+              {jokes.map((joke) => (
+                <JokeCard
+                  key={joke.id}
+                  joke={joke}
+                  onClicked={() => handleViewJoke(joke)}
+                />
+              ))}
+            </div>
           </div>
 
           <Link to="/newJoke" className={classes.Button}>

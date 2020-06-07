@@ -3,13 +3,37 @@
 .Container {
   display: flex;
   flex-direction: column;
-  max-height: 100vh;
+  height: 100vh;
+  width: 100%;
   align-items: center;
+  min-width: 18rem;
+  overflow-y: auto;
+}
+
+.JokesContainer {
+  overflow-x: auto;
+  width: calc(70vw + 3rem);
+  min-width: 15rem;
+  margin: 1rem auto;
+  padding: 0.5rem;
+
+  scrollbar-width: thin;
+  scrollbar-color: #2af598 #009dff;
+}
+
+.JokesContainer::-webkit-scrollbar {
+  width: 6px;
+}
+.JokesContainer::-webkit-scrollbar-track {
+  background-color: #009dff;
+}
+.JokesContainer::-webkit-scrollbar-thumb {
+  background-color: #2af598;
 }
 
 .Jokes {
   max-width: 70vw;
-  margin: 2rem 0;
+  margin: 0 auto;
   display: grid;
   justify-content: center;
   align-items: flex-start;
@@ -19,5 +43,5 @@
 }
 
 .Button {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }

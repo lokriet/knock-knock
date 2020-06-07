@@ -68,10 +68,10 @@ const ViewJoke = () => {
             </>
           ) : null}
           <div className={classes.Container}>
+            <Link to="/" className={classes.PageTitle}>
+              - Knock-knock!
+            </Link>
             <div className={classes.Joke}>
-              <Link to="/" className={classes.PageTitle}>
-                - Knock-knock!
-              </Link>
               <p>- Who's there?</p>
               <p>- {joke.who}</p>
               <p>- {joke.who} who?</p>

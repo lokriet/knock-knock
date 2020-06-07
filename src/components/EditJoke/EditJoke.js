@@ -39,10 +39,10 @@ const EditJoke = () => {
   const validateInput = (inputName, inputValue) => {
     if (inputValue.trim() === '') {
       setErrors((errors) => ({ ...errors, [inputName]: true }));
-      return true;
+      return false;
     } else {
       setErrors((errors) => ({ ...errors, [inputName]: false }));
-      return false;
+      return true;
     }
   };
 
@@ -58,7 +58,7 @@ const EditJoke = () => {
     const whoValid = validateInput('who', values.who);
     const punchlineValid = validateInput('punchline', values.punchline);
 
-    if (!whoValid || !punchlineValid) {
+    if (!(whoValid && punchlineValid)) {
       return;
     } else {
       const updatedWho = values.who.trim();
@@ -107,11 +107,11 @@ const EditJoke = () => {
     } else {
       view = (
         <div className={classes.Container}>
+          <Link to="/" className={classes.PageTitle}>
+            - Knock-knock!
+          </Link>
           <form onSubmit={handleSubmit}>
             <div>
-              <Link to="/" className={classes.PageTitle}>
-                - Knock-knock!
-              </Link>
               <p>- Who's there?</p>
               <span>- </span>
               <input

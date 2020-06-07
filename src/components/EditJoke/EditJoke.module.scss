@@ -9,16 +9,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 7rem;
+  height: 100vh;
+  min-width: 24rem;
 
   p {
-    margin: 1rem 0 1rem 3.2rem;
+    margin: 1rem 0;
     max-width: 24rem;
-    word-break: break-all;
-  }
-
-  span {
-    margin: 0 0 0 3.2rem;
   }
 
   input {
@@ -38,6 +34,6 @@
 }
 
 .InputError {
-  margin: 1rem 0 1rem 4.2rem;
-  max-width: 22rem;
+  margin: 1rem 0 0 1rem;
+  max-width: 23rem;
 }
