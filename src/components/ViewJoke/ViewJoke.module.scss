@@ -1,0 +1,49 @@
+@import '../../assets/css/common.scss';
+
+.Container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 7rem;
+}
+
+.Joke p {
+  margin: 0.5rem 0 0 3.2rem;
+  max-width: 22rem;
+  word-break: break-all;
+}
+
+.PageTitle {
+  cursor: pointer;
+}
+
+.Backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-image: linear-gradient(30deg, #2af59ac2 0%, #009cfdc2 100%);
+}
+
+.ConfirmDeleteDialog {
+  position: fixed;
+  top: 20vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+
+  background-color: #fff7e2;
+  box-shadow: 2px 2px 3px #7c7c7c9a;
+  border-radius: 8px;
+  padding: 1rem 2rem;
+
+  p {
+    text-align: center;
+    margin: 0;
+  }
+
+  .Buttons {
+    margin: 1rem 0 0 0;
+  }
+}

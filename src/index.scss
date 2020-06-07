@@ -1,0 +1,17 @@
+@import './assets/css/normalize.scss';
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
+
+@font-face {
+  font-family: 'west_fighterregular';
+  src: url('./assets/fonts/westfighter-0wdoz-webfont.woff2') format('woff2'),
+       url('./assets/fonts/westfighter-0wdoz-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  font-family:  'Inconsolata', monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

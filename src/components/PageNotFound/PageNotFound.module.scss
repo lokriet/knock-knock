@@ -1,0 +1,16 @@
+@import '../../assets/css/common.scss';
+
+.Container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+}
+
+.JokeLine {
+  width: 10rem;
+}
+
+.Button {
+  margin-top: 1rem;
+}

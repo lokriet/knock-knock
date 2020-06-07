@@ -1,0 +1,43 @@
+@import '../../assets/css/common.scss';
+
+
+.PageTitle {
+  cursor: pointer;
+}
+
+.Container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 7rem;
+
+  p {
+    margin: 1rem 0 1rem 3.2rem;
+    max-width: 24rem;
+    word-break: break-all;
+  }
+
+  span {
+    margin: 0 0 0 3.2rem;
+  }
+
+  input {
+    margin: 0;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid black;
+    padding: 0 0 0.25rem 0;
+    width: 20rem;
+    text-overflow: ellipsis;
+
+    &:focus {
+      outline: none;
+      border-color: #1310df;
+    }
+  }
+}
+
+.InputError {
+  margin: 1rem 0 1rem 4.2rem;
+  max-width: 22rem;
+}

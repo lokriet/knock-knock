@@ -1,0 +1,31 @@
+.JokeCard {
+  background-color: #fff7e2;
+  box-shadow: 2px 2px 3px #7c7c7c9a;
+  border-radius: 8px;
+  padding: 1.5rem 1rem;
+  max-height: 15rem;
+  overflow-y: auto;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow:  0 0 0 3px #fff7e2, 3px 3px 3px 3px #7c7c7c9a; 
+  }
+
+  p {
+    margin: 0 0 0.5rem 0;
+    word-break: break-all;
+  }
+
+  scrollbar-width: thin;
+  scrollbar-color: #cfc19d #fffefa;
+}
+
+.JokeCard::-webkit-scrollbar {
+  width: 6px;
+}
+.JokeCard::-webkit-scrollbar-track {
+  background-color: #fffefa;
+}
+.JokeCard::-webkit-scrollbar-thumb {
+  background-color: #cfc19d;
+}

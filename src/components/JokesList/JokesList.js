@@ -6,6 +6,7 @@ import * as actions from '../../store/jokeActions';
 import Error from '../UI/Error/Error';
 import { Spinner } from '../UI/Spinner/Spinner';
 import JokeCard from './JokeCard/JokeCard';
+import classes from './JokesList.module.scss';
 
 const JokesList = () => {
   const { jokes, loading, error } = useSelector((state) => state);
@@ -18,20 +19,33 @@ const JokesList = () => {
 
   const handleViewJoke = (joke) => {
     history.push(`/viewJoke/${joke.id}`);
-  }
+  };
 
   return loading ? (
     <Spinner />
   ) : (
-    <div>
-      <Link to="/newJoke">New</Link>
-      <div>
-        {jokes.map((joke) => (
-          <JokeCard key={joke.id} joke={joke} onClicked={() => handleViewJoke(joke)} />
-        ))}
-      </div>
+    <div className={classes.Container}>
+      <h1 className={classes.PageTitle}>Knock-Knock!</h1>
 
-      <Error error={error} />
+      {error ? (
+        <Error error={error} />
+      ) : (
+        <>
+          <div className={classes.Jokes}>
+            {jokes.map((joke) => (
+              <JokeCard
+                key={joke.id}
+                joke={joke}
+                onClicked={() => handleViewJoke(joke)}
+              />
+            ))}
+          </div>
+
+          <Link to="/newJoke" className={classes.Button}>
+            I know a better one!
+          </Link>
+        </>
+      )}
     </div>
   );
 };

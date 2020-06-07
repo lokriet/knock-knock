@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
 
@@ -6,8 +6,11 @@ import * as actions from '../../store/jokeActions';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import Error from '../UI/Error/Error';
 import { Spinner } from '../UI/Spinner/Spinner';
+import classes from './ViewJoke.module.scss';
 
 const ViewJoke = () => {
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+
   const { jokeId } = useParams();
   const { loading, error, initialized } = useSelector((state) => state);
   const joke = useSelector((state) =>
@@ -31,7 +34,7 @@ const ViewJoke = () => {
 
   const handleDeleteSuccess = () => {
     history.push('/');
-  }
+  };
 
   let view;
   if (!initialized) {
@@ -41,25 +44,63 @@ const ViewJoke = () => {
       view = <PageNotFound />;
     } else {
       view = (
-        <div>
-          <div>
-            <div>Knock-knock!</div>
-            <div>Who's there?</div>
-            <div>{joke.who}</div>
-            <div>{joke.who} who?</div>
-            <div>{joke.punchline}</div>
+        <>
+          {showConfirmDialog ? (
+            <>
+              <div
+                className={classes.Backdrop}
+                onClick={() => setShowConfirmDialog(false)}
+              ></div>
+              <div className={classes.ConfirmDeleteDialog}>
+                <p>Delete the joke?</p>
+                <div className={classes.Buttons}>
+                  <button
+                    className={classes.Button}
+                    onClick={() => setShowConfirmDialog(false)}
+                  >
+                    Noooo!
+                  </button>
+                  <button className={classes.Button} onClick={handleDelete}>
+                    Yes!
+                  </button>
+                </div>
+              </div>
+            </>
+          ) : null}
+          <div className={classes.Container}>
+            <div className={classes.Joke}>
+              <Link to="/" className={classes.PageTitle}>
+                - Knock-knock!
+              </Link>
+              <p>- Who's there?</p>
+              <p>- {joke.who}</p>
+              <p>- {joke.who} who?</p>
+              <p>- {joke.punchline}</p>
+            </div>
+            <div className={classes.Buttons}>
+              <button
+                className={classes.Button}
+                onClick={() => {
+                  setShowConfirmDialog(true);
+                }}
+                disabled={loading}
+              >
+                Delete
+              </button>
+              <button
+                className={classes.Button}
+                onClick={handleEdit}
+                disabled={loading}
+              >
+                Edit
+              </button>
+              <Link to="/" className={classes.Button}>
+                Home
+              </Link>
+            </div>
+            <Error error={error} />
           </div>
-          <div>
-            <button onClick={handleEdit} disabled={loading}>
-              Edit
-            </button>
-            <button onClick={handleDelete} disabled={loading}>
-              Delete
-            </button>
-            <Link to="/">Home</Link>
-          </div>
-          <Error error={error} />
-        </div>
+        </>
       );
     }
   }

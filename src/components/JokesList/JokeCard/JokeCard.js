@@ -1,14 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import classes from './JokeCard.module.scss';
+
 const JokeCard = ({ joke, onClicked }) => {
   return (
-    <div onClick={onClicked}>
-      <div>Knock-knock!</div>
-      <div>Who's there?</div>
-      <div>{joke.who}</div>
-      <div>{joke.who} who?</div>
-      <div>{joke.punchline}</div>
+    <div className={classes.JokeCard} onClick={onClicked}>
+      <p>- Knock-knock!</p>
+      <p>- Who's there?</p>
+      <p>- {joke.who}</p>
+      <p>- {joke.who} who?</p>
+      <p>- {joke.punchline}</p>
     </div>
   );
 };
