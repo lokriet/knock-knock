@@ -61,10 +61,10 @@ export const saveJoke = (joke, isCreate) => {
       if (response.ok) {
         dispatch(saveJokeSuccess());
       } else {
-        dispatch(saveJokeFailed('Failed to create a joke :('));
+        dispatch(saveJokeFailed(`Failed to ${isCreate ? 'create' : 'update'} a joke :(`));
       }
     } catch (error) {
-      dispatch(saveJokeFailed('Failed to create a joke :('));
+      dispatch(saveJokeFailed(`Failed to ${isCreate ? 'create' : 'update'} a joke :(`));
     }
   };
 };

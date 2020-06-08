@@ -2,6 +2,8 @@ import { JokeListActionTypes as actionTypes } from '../actions/jokeList';
 
 const initialState = {
   jokes: [],
+  pageNo: 1,
+  maxPageNo: 1,
   loading: false,
   error: null,
   pageLoaded: false
@@ -9,6 +11,9 @@ const initialState = {
 
 const jokeListReducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.JOKE_LIST_PAGE_LOADED:
+      return jokeListPageLoaded(state, action);
+
     case actionTypes.LOAD_JOKES_STARTED:
       return loadJokesStarted(state, action);
 
@@ -26,13 +31,19 @@ const jokeListReducer = (state = initialState, action) => {
   }
 };
 
-const loadJokesStarted = (state, action) => {
+const jokeListPageLoaded = (state, action) => {
   return {
     ...state,
-    loading: true,
-    error: null,
     pageLoaded: true
-  };
+  }
+}
+
+const loadJokesStarted = (state, action) => {
+  return state.pageLoaded ? {
+    ...state,
+    loading: true,
+    error: null
+  } : initialState;
 };
 
 const loadJokesSuccess = (state, action) => {
@@ -41,7 +52,9 @@ const loadJokesSuccess = (state, action) => {
         ...state,
         loading: false,
         error: null,
-        jokes: [...action.payload.jokes]
+        jokes: action.payload.jokes,
+        pageNo: action.payload.pageNo,
+        maxPageNo: action.payload.maxPageNo
       }
     : initialState;
 };

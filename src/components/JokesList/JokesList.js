@@ -9,7 +9,9 @@ import JokeCard from './JokeCard/JokeCard';
 import classes from './JokesList.module.scss';
 
 const JokesList = () => {
-  const { jokes, loading, error } = useSelector((state) => state.jokeList);
+  const { jokes, pageNo, maxPageNo, loading, error } = useSelector(
+    (state) => state.jokeList
+  );
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -18,20 +20,23 @@ const JokesList = () => {
 
     return () => {
       dispatch(actions.jokeListPageUnloaded());
-    }
+    };
   }, [dispatch]);
 
   const handleViewJoke = (joke) => {
     history.push(`/viewJoke/${joke.id}`);
   };
 
-  return loading ? (
-    <Spinner />
-  ) : (
+  const handleLoadJokes = (pageNo) => {
+    dispatch(actions.loadJokes(pageNo));
+  }
+
+  return (
     <div className={classes.Container}>
       <h1 className={classes.PageTitle}>Knock-Knock!</h1>
-
-      {error ? (
+      {loading ? (
+        <Spinner />
+      ) : error ? (
         <Error error={error} />
       ) : (
         <>
@@ -47,9 +52,29 @@ const JokesList = () => {
             </div>
           </div>
 
-          <Link to="/newJoke" className={classes.Button}>
-            I know a better one!
-          </Link>
+          <div className={classes.Buttons}>
+            {jokes && maxPageNo > 1 ? (
+              <button
+                className={classes.Button}
+                disabled={loading || pageNo === 1}
+                onClick={() => handleLoadJokes(pageNo - 1)}
+              >
+                Prev
+              </button>
+            ) : null}
+            <Link to="/newJoke" className={`${classes.Button} ${classes.NewJokeButton}`}>
+              I know a better one!
+            </Link>
+            {jokes && maxPageNo > 1 ? (
+              <button
+                className={classes.Button}
+                disabled={loading || pageNo === maxPageNo}
+                onClick={() => handleLoadJokes(pageNo + 1)}
+              >
+                Next
+              </button>
+            ) : null}
+          </div>
         </>
       )}
     </div>

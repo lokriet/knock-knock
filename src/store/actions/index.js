@@ -1,6 +1,7 @@
 export {
   jokeListPageLoaded,
-  jokeListPageUnloaded
+  jokeListPageUnloaded,
+  loadJokes
 } from './jokeList';
 
 export {
