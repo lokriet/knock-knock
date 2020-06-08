@@ -1,7 +1,7 @@
 # Knock-Knock!
 **Save all your favorite knock-knock jokes in one place**
 
-A simple client side React app supporting GRUD operations for knock-knock jokes.
+A simple client side React app supporting CRUD operations for knock-knock jokes.
 
 ## Launching locally
 Knock-Knock was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
