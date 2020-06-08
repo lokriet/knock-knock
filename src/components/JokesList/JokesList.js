@@ -41,7 +41,7 @@ const JokesList = () => {
       ) : (
         <>
           <div className={classes.JokesContainer}>
-            <div className={classes.Jokes}>
+            <div className={`${classes.Jokes} ${!jokes || jokes.length < 3 ? classes.Short : ''}`}>
               {jokes.map((joke) => (
                 <JokeCard
                   key={joke.id}

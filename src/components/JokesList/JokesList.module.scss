@@ -39,7 +39,17 @@
   grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
   gap: 1.5rem 2rem;
   grid-auto-flow: dense;
+
+  &.Short {
+    display: flex;
+    flex-wrap: wrap;
+
+    &>* {
+      margin: 0.75rem 1rem;
+    }
+  }
 }
+
 
 .Button {
   margin-bottom: 1rem;
