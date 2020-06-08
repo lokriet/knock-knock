@@ -63,7 +63,7 @@ const JokesList = () => {
               </button>
             ) : null}
             <Link to="/newJoke" className={`${classes.Button} ${classes.NewJokeButton}`}>
-              I know a better one!
+              I know a {jokes && jokes.length > 0 ? 'better' : 'good'} one!
             </Link>
             {jokes && maxPageNo > 1 ? (
               <button
